@@ -1,0 +1,25 @@
+<section class="main-section">
+  <div class="example-container">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <mat-form-field>
+      <mat-label>Enter your password</mat-label>
+      <input matInput [type]="hide() ? 'password' : 'text'"
+             formControlName="password"/>
+      <button
+        matIconButton
+        matSuffix
+        (click)="clickEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()"
+      >
+        <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+    <button class="sign-in-button" mat-button="outlined" type="submit" aria-label="Show an example snack-bar">
+      Sign In
+    </button>
+    </form>
+
+  </div>
+
+</section>
