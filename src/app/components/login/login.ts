@@ -5,7 +5,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
-import {LoginService} from '../services/login';
+import {LoginService} from '../../services/login';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +37,7 @@ export class Login {
     if (this.loginForm.valid) {
       const ok = this.loginService.loginUser(this.password.value);
       if (ok) {
-        // this.router.navigate(['home']); // or your desired route
+        this.router.navigate(['calendar']); // or your desired route
         console.log("yes");
       } else {
         console.log('Invalid password');

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class LoginService {
 
   loginUser(password: string | null): Boolean {
-    return password === "";
+    return password === "pooksieKonradzmij";
   }
 
 }

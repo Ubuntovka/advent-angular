@@ -1,0 +1,40 @@
+<div class="advent-container">
+  <h1 class="advent-title">🎄 Pooksie Advent Calendar 2025 🎄</h1>
+
+  <div class="calendar-grid">
+    <div *ngFor="let day of days"
+         class="calendar-day"
+         [class.locked]="!day.canOpen"
+         [class.open]="day.isOpen"
+         (click)="onDayClick(day)">
+
+      <div class="door-container">
+
+        <!-- Front of door -->
+        <div class="door-front">
+          <div class="day-number">{{ day.day }}</div>
+          <div class="door-decoration">
+            <span class="snowflake">❄️</span>
+          </div>
+          <div *ngIf="!day.canOpen" class="lock-icon">🔒</div>
+        </div>
+
+        <!-- Back of door (revealed content) -->
+        <div class="door-back">
+          <div class="surprise-content">
+<!--            <span class="surprise-icon">🎁</span>-->
+            <button matButton (click)="openDialog()" class="surprise-icon">🎁</button>
+
+
+
+            <p class="surprise-text">Day {{ day.day }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="snow-overlay">
+    <div class="snowflake" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">❅</div>
+  </div>
+</div>

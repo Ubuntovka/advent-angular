@@ -1,0 +1,242 @@
+.advent-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.advent-title {
+  text-align: center;
+  color: #fff;
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: 'Georgia', serif;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  perspective: 1000px;
+}
+
+/*.calendar-day {*/
+/*  aspect-ratio: 1;*/
+/*  cursor: pointer;*/
+/*  position: relative;*/
+/*  transition: transform 0.2s;*/
+/*}*/
+
+.calendar-day {
+  aspect-ratio: 1;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s;
+  perspective: 1000px;
+  /* fix movement issue */
+  transform-style: preserve-3d;
+}
+
+.calendar-day.locked {
+  cursor: not-allowed;
+}
+
+.calendar-day:hover:not(.locked) {
+  transform: scale(1.05);
+}
+
+/*.door-container {*/
+/*  width: 100%;*/
+/*  height: 100%;*/
+/*  position: relative;*/
+/*  transform-style: preserve-3d;*/
+/*  transition: transform 0.6s;*/
+/*}*/
+.door-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  /* make sure rotation does NOT shift element */
+  transform-style: preserve-3d;
+  transform-origin: center center;
+
+  /* this helps keep it exactly in place */
+  backface-visibility: hidden;
+}
+
+.calendar-day.open .door-container {
+  transform: rotateY(-180deg);
+}
+
+.calendar-day.open {
+  transform: none !important;
+}
+
+
+/*.door-front,*/
+/*.door-back {*/
+/*  position: absolute;*/
+/*  width: 100%;*/
+/*  height: 100%;*/
+/*  backface-visibility: hidden;*/
+/*  border-radius: 12px;*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);*/
+/*}*/
+
+.door-front,
+.door-back {
+  position: absolute;        /* fix shifting */
+  top: 5dvh;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.door-front {
+  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+  border: 4px solid #ffd700;
+  position: relative;
+  overflow: hidden;
+}
+
+.door-front::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%) translateY(-100%); }
+  100% { transform: translateX(100%) translateY(100%); }
+}
+
+/*.door-back {*/
+/*  background: linear-gradient(135deg, #2d5016 0%, #1a3409 100%);*/
+/*  border: 4px solid #ffd700;*/
+/*  transform: rotateY(180deg);*/
+/*}*/
+.door-back {
+  transform: rotateY(180deg);
+}
+
+.day-number {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.door-decoration {
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  z-index: 1;
+}
+
+.lock-icon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.2rem;
+  z-index: 2;
+}
+
+.surprise-content {
+  text-align: center;
+  color: #fff;
+}
+
+.surprise-icon {
+  font-size: 3rem;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.surprise-text {
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.snow-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.snow-overlay .snowflake {
+  position: absolute;
+  top: -10%;
+  color: #fff;
+  font-size: 1.5rem;
+  opacity: 0.8;
+  animation: snowfall linear infinite;
+}
+
+.snow-overlay .snowflake:nth-child(1) { left: 10%; animation-duration: 8s; animation-delay: 0s; }
+.snow-overlay .snowflake:nth-child(2) { left: 20%; animation-duration: 10s; animation-delay: 1s; }
+.snow-overlay .snowflake:nth-child(3) { left: 30%; animation-duration: 7s; animation-delay: 2s; }
+.snow-overlay .snowflake:nth-child(4) { left: 40%; animation-duration: 9s; animation-delay: 0.5s; }
+.snow-overlay .snowflake:nth-child(5) { left: 50%; animation-duration: 11s; animation-delay: 1.5s; }
+.snow-overlay .snowflake:nth-child(6) { left: 60%; animation-duration: 8s; animation-delay: 2.5s; }
+.snow-overlay .snowflake:nth-child(7) { left: 70%; animation-duration: 10s; animation-delay: 0.8s; }
+.snow-overlay .snowflake:nth-child(8) { left: 80%; animation-duration: 9s; animation-delay: 1.8s; }
+.snow-overlay .snowflake:nth-child(9) { left: 90%; animation-duration: 7s; animation-delay: 0.3s; }
+.snow-overlay .snowflake:nth-child(10) { left: 15%; animation-duration: 12s; animation-delay: 2s; }
+
+@keyframes snowfall {
+  0% {
+    top: -10%;
+    transform: translateX(0) rotate(0deg);
+  }
+  100% {
+    top: 110%;
+    transform: translateX(100px) rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .advent-title {
+    font-size: 2rem;
+  }
+
+  .calendar-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+  }
+
+  .day-number {
+    font-size: 2rem;
+  }
+}
