@@ -1,25 +1,71 @@
-<section class="main-section">
-  <div class="example-container">
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-    <mat-form-field>
-      <mat-label>Enter your password</mat-label>
-      <input matInput [type]="hide() ? 'password' : 'text'"
-             formControlName="password"/>
-      <button
-        matIconButton
-        matSuffix
-        (click)="clickEvent($event)"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide()"
-      >
-        <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
-      </button>
-    </mat-form-field>
-    <button class="sign-in-button" mat-button="outlined" type="submit" aria-label="Show an example snack-bar">
-      Sign In
-    </button>
-    </form>
+<div class="login-container">
+  <div class="login-page">
+    <div class="login-form-wrapper">
+      <h1 class="title">Sign In</h1>
+      <p class="field-name">Email:</p>
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <mat-form-field class="email">
+          <mat-label>Enter your email</mat-label>
+          <input
+            (blur)="updateErrorMessage()"
+            formControlName="email"
+            matInput
+            placeholder="pat@example.com"
+            required
+          />
+          @if (email.invalid) {
+            <mat-error>{{ errorMessage() }}</mat-error>
+          }
+        </mat-form-field>
+        <p class="field-name">Password:</p>
+        <mat-form-field class="password">
+          <mat-label>Enter your password</mat-label>
+          <input matInput [type]="hide() ? 'password' : 'text'"
+                 formControlName="password"/>
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+          >
+            <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+        <button class="sign-in-button" mat-button="outlined" type="submit" aria-label="Show an example snack-bar">
+          Sign In
+        </button>
+      </form>
 
+      <p>Do not have an account yet? Register <a routerLink="/register">here!</a></p>
+
+    </div>
   </div>
+</div>
 
-</section>
+
+
+<!--<section class="main-section">-->
+<!--  <div class="example-container">-->
+<!--    <form [formGroup]="loginForm" (ngSubmit)="login()">-->
+<!--    <mat-form-field>-->
+<!--      <mat-label>Enter your password</mat-label>-->
+<!--      <input matInput [type]="hide() ? 'password' : 'text'"-->
+<!--             formControlName="password"/>-->
+<!--      <button-->
+<!--        matIconButton-->
+<!--        matSuffix-->
+<!--        (click)="clickEvent($event)"-->
+<!--        [attr.aria-label]="'Hide password'"-->
+<!--        [attr.aria-pressed]="hide()"-->
+<!--      >-->
+<!--        <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>-->
+<!--      </button>-->
+<!--    </mat-form-field>-->
+<!--    <button class="sign-in-button" mat-button="outlined" type="submit" aria-label="Show an example snack-bar">-->
+<!--      Sign In-->
+<!--    </button>-->
+<!--    </form>-->
+<!--  </div>-->
+<!--</section>-->
