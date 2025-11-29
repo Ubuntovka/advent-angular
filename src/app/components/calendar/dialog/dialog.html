@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-<h2 mat-dialog-title>Dialog with elements</h2>
+<h2 mat-dialog-title>Day {{ data.day }}</h2>
 <mat-dialog-content>
-  This dialog showcases the title, close, content and actions elements.
+  <p>{{ data.content }}</p>
 </mat-dialog-content>
 
 <mat-dialog-actions>
   <button matButton mat-dialog-close>Close</button>
 </mat-dialog-actions>
-</body>
-</html>

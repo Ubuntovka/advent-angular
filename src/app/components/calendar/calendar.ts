@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, OnDestroy, Inject, ChangeDetectorRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {
@@ -8,11 +8,14 @@ import {
   MatDialogContent,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {ApiService} from '../../services/api.service';
 
 interface CalendarDay {
   day: number;
   isOpen: boolean;
   canOpen: boolean;
+  content?: string;
 }
 
 @Component({
@@ -22,19 +25,35 @@ interface CalendarDay {
   styleUrl: './calendar.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Calendar {
+export class Calendar implements OnInit, OnDestroy {
   days: CalendarDay[] = [];
   currentDate: Date = new Date();
+  private refreshTimer: any;
 
   readonly dialog = inject(MatDialog);
+  constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
 
-  openDialog() {
-    this.dialog.open(DialogElementsExampleDialog);
+  openDialog(day: CalendarDay) {
+    this.dialog.open(DialogElementsExampleDialog, {
+      data: { content: day.content ?? '', day: day.day }
+    });
   }
 
   ngOnInit() {
     this.initializeCalendar();
     this.loadOpenedDays();
+    this.loadAllowedDaysFromApi();
+    // Refresh available days every 5 minutes
+    this.refreshTimer = setInterval(() => {
+      this.loadAllowedDaysFromApi();
+    }, 5 * 60 * 1000);
+  }
+
+  ngOnDestroy() {
+    if (this.refreshTimer) {
+      clearInterval(this.refreshTimer);
+      this.refreshTimer = undefined;
+    }
   }
 
   initializeCalendar() {
@@ -45,19 +64,45 @@ export class Calendar {
     this.days = shuffled.map(day => ({
       day,
       isOpen: false,
-      canOpen: this.canOpenDay(day)
+      canOpen: false,
+      content: undefined,
     }));
   }
 
-  canOpenDay(day: number): boolean {
-    // For demo purposes, allow opening if current day >= advent day
-    // In December, this would be: currentDate.getDate() >= day
-    const currentDay = this.currentDate.getDate();
-    const currentMonth = this.currentDate.getMonth();
-
-    // Allow all days in demo mode (remove this for production)
-    // For production: return currentMonth === 11 && currentDay >= day;
-    return true; // Demo mode - allows opening any day
+  loadAllowedDaysFromApi() {
+    this.api.getDays().subscribe({
+      next: (resp: any) => {
+        const items = Array.isArray(resp?.items) ? resp.items : [];
+        const lookup = new Map<number, string>();
+        for (const it of items) {
+          const d = new Date(it.date);
+          const dayNum = d.getDate(); // per requirements: ignore month, take day of month
+          if (dayNum >= 1 && dayNum <= 24) {
+            lookup.set(dayNum, typeof it.content === 'string' ? it.content : '');
+          }
+        }
+        // Update calendar days
+        this.days.forEach(cd => {
+          if (lookup.has(cd.day)) {
+            cd.canOpen = true;
+            cd.content = lookup.get(cd.day);
+          } else {
+            cd.canOpen = false;
+            cd.content = undefined;
+          }
+        });
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        // On error, keep all days locked
+        console.error('Failed to load allowed days', err);
+        this.days.forEach(cd => {
+          cd.canOpen = false;
+          cd.content = undefined;
+        });
+        this.cdr.markForCheck();
+      }
+    });
   }
 
   onDayClick(day: CalendarDay) {
@@ -108,4 +153,6 @@ export class Calendar {
   imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogElementsExampleDialog {}
+export class DialogElementsExampleDialog {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {content: string, day: number}) {}
+}

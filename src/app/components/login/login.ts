@@ -1,6 +1,6 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ApiService} from '../../services/login';
+import {ApiService} from '../../services/api.service';
 import {Router, RouterLink} from '@angular/router';
 import {MatFormField, MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';

@@ -107,75 +107,12 @@ export class ApiService {
     return this.http.delete(this.apiUrl + '/api/users/delete', {});
   }
 
+
+  getDays(): Observable<any> {
+    const headers = {
+      Authorization: `Bearer ${this.getToken()}`
+    };
+    return this.http.get(this.apiUrl + "/api/days/today", {headers});
+  }
+
 }
-
-
-
-
-
-
-// import { Injectable } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
-// import { Observable, map, tap, catchError, of } from 'rxjs';
-//
-// interface LoginResponse {
-//   // Adjust these fields if your backend responds differently
-//   token?: string;
-//   success?: boolean;
-//   message?: string;
-// }
-//
-// @Injectable({
-//   providedIn: 'root',
-// })
-// export class LoginService {
-//   private authenticated = false;
-//   private readonly baseUrl = 'http://localhost:3000/api/users/login';
-//   private readonly tokenKey = 'advent_token';
-//   private readonly authKey = 'advent_auth';
-//
-//   constructor(private http: HttpClient) {
-//     // Restore auth state from storage (session-based by default)
-//     const stored = localStorage.getItem(this.authKey);
-//     this.authenticated = stored === 'true';
-//   }
-//
-//   loginUser(email: string | null, password: string | null): Observable<boolean> {
-//     const body = { email, password } as const;
-//     return this.http.post<LoginResponse>(this.baseUrl, body).pipe(
-//       map((res) => {
-//         // Determine success
-//         const ok = !!(res && (res.success || res.token));
-//         return { ok, token: res?.token };
-//       }),
-//       tap(({ ok, token }) => {
-//         this.authenticated = ok;
-//         localStorage.setItem(this.authKey, String(ok));
-//         if (ok && token) {
-//           localStorage.setItem(this.tokenKey, token);
-//         }
-//       }),
-//       map(({ ok }) => ok),
-//       catchError((err) => {
-//         // On error ensure not authenticated
-//         this.authenticated = false;
-//         localStorage.setItem(this.authKey, 'false');
-//         return of(false);
-//       })
-//     );
-//   }
-//
-//   isAuthenticated(): boolean {
-//     return this.authenticated;
-//   }
-//
-//   getToken(): string | null {
-//     return localStorage.getItem(this.tokenKey);
-//   }
-//
-//   logout(): void {
-//     this.authenticated = false;
-//     localStorage.removeItem(this.authKey);
-//     localStorage.removeItem(this.tokenKey);
-//   }
-// }

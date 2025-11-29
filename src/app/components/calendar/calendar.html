@@ -23,7 +23,7 @@
         <div class="door-back">
           <div class="surprise-content">
 <!--            <span class="surprise-icon">🎁</span>-->
-            <button matButton (click)="openDialog()" class="surprise-icon">🎁</button>
+            <button matButton (click)="openDialog(day); $event.stopPropagation()" class="surprise-icon">🎁</button>
 
 
 
