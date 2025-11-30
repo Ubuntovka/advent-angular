@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "advent": {
+    "advent-angular": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -57,10 +57,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "advent:build:production"
+              "buildTarget": "advent-angular:build:production"
             },
             "development": {
-              "buildTarget": "advent:build:development"
+              "buildTarget": "advent-angular:build:development"
             }
           },
           "defaultConfiguration": "development"
