@@ -12,4 +12,4 @@ FROM nginx:alpine
 
 COPY --from=build /advent-angular/dist/advent-angular/browser /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 81
