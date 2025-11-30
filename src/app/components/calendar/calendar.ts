@@ -20,7 +20,7 @@ interface CalendarDay {
 
 @Component({
   selector: 'app-calendar',
-  imports: [CommonModule, MatButtonModule, MatDialogContent, MatDialogActions],
+  imports: [CommonModule, MatButtonModule],
   templateUrl: './calendar.html',
   styleUrl: './calendar.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
