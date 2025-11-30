@@ -60,6 +60,7 @@ input.example-right-align {
 
 .title {
   margin-bottom: 8dvh;
+  line-height: 2rem;
 }
 
 .field-name {
