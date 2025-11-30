@@ -17,7 +17,7 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'https://katsala.com/advent/api/';
 
   constructor(private http: HttpClient) {
   }
